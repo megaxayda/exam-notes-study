@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
+import { useDebounce } from "use-debounce";
 
 export default function Account({ session }) {
   const [loading, setLoading] = useState(true);
@@ -7,9 +8,34 @@ export default function Account({ session }) {
   const [website, setWebsite] = useState(null);
   const [avatar_url, setAvatarUrl] = useState(null);
 
+  const [newNote, setNewNote] = useState(null);
+  const [notes, setNotes] = useState([]);
+  const [text, setText] = useState("");
+  const [syncText] = useDebounce(text, 1000);
+
+  useEffect(() => {
+    if (newNote) setNotes([...notes, newNote]);
+  }, [newNote]);
+
   useEffect(() => {
     getProfile();
   }, [session]);
+
+  useEffect(() => {
+    const noteListener = supabase
+      .from("notes")
+      .on("INSERT", (payload) => setNewNote(payload.new))
+      // .on("DELETE", (payload) => handleDeletedChannel(payload.old))
+      .subscribe();
+    // Cleanup on unmount
+    return () => {
+      noteListener.unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    addNote(syncText);
+  }, [syncText]);
 
   async function getProfile() {
     try {
@@ -65,6 +91,25 @@ export default function Account({ session }) {
     }
   }
 
+  const addNote = async (content: string) => {
+    try {
+      setLoading(true);
+      const user = supabase.auth.user();
+
+      const title = content.split("\n")[0];
+
+      await supabase
+        .from("notes")
+        .insert([{ name: title, content, created_by: user?.id }]);
+
+      return;
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="form-widget">
       <div>
@@ -107,6 +152,27 @@ export default function Account({ session }) {
         >
           Sign Out
         </button>
+      </div>
+
+      <div className="mt-10">
+        <button className="border-2 border-indigo-600">Add new notes</button>
+      </div>
+
+      <div className="mt-10">
+        <p className="text-2xl">List of notes</p>
+        {notes.map((e, id) => (
+          <div key={id}>{e.name}</div>
+        ))}
+      </div>
+
+      <div className="mt-10">
+        <p className="text-2xl">Input note</p>
+        <textarea
+          className="border-2 "
+          value={text}
+          rows={5}
+          onChange={(e) => setText(e.target.value)}
+        ></textarea>
       </div>
     </div>
   );
