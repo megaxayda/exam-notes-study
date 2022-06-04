@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 import { useDebounce } from "use-debounce";
+import { Session } from "@supabase/supabase-js";
 
-export default function Account({ session }) {
+export default function Account({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState(null);
-  const [website, setWebsite] = useState(null);
-  const [avatar_url, setAvatarUrl] = useState(null);
+  const [username, setUsername] = useState<string>();
+  const [website, setWebsite] = useState<string>();
+  const [avatar_url, setAvatarUrl] = useState<string>();
 
   const [newNote, setNewNote] = useState(null);
   const [notes, setNotes] = useState([]);
@@ -45,7 +46,7 @@ export default function Account({ session }) {
       let { data, error, status } = await supabase
         .from("profiles")
         .select(`username, website, avatar_url`)
-        .eq("id", user.id)
+        .eq("id", user?.id)
         .single();
 
       if (error && status !== 406) {
@@ -58,19 +59,27 @@ export default function Account({ session }) {
         setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
-      alert(error.message);
+      alert(error);
     } finally {
       setLoading(false);
     }
   }
 
-  async function updateProfile({ username, website, avatar_url }) {
+  async function updateProfile({
+    username,
+    website,
+    avatar_url,
+  }: {
+    username: string;
+    website: string;
+    avatar_url: string;
+  }) {
     try {
       setLoading(true);
       const user = supabase.auth.user();
 
       const updates = {
-        id: user.id,
+        id: user?.id,
         username,
         website,
         avatar_url,
@@ -85,7 +94,7 @@ export default function Account({ session }) {
         throw error;
       }
     } catch (error) {
-      alert(error.message);
+      alert(error);
     } finally {
       setLoading(false);
     }
@@ -114,7 +123,7 @@ export default function Account({ session }) {
     <div className="form-widget">
       <div>
         <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session.user.email} disabled />
+        <input id="email" type="text" value={session?.user?.email} disabled />
       </div>
       <div>
         <label htmlFor="username">Name</label>
@@ -138,7 +147,13 @@ export default function Account({ session }) {
       <div>
         <button
           className="button block primary"
-          onClick={() => updateProfile({ username, website, avatar_url })}
+          onClick={() =>
+            updateProfile({
+              username: "asdas",
+              website: "asdas",
+              avatar_url: "asdas",
+            })
+          }
           disabled={loading}
         >
           {loading ? "Loading ..." : "Update"}
@@ -161,7 +176,7 @@ export default function Account({ session }) {
       <div className="mt-10">
         <p className="text-2xl">List of notes</p>
         {notes.map((e, id) => (
-          <div key={id}>{e.name}</div>
+          <div key={id}>afasf</div>
         ))}
       </div>
 

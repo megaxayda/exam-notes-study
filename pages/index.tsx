@@ -2,14 +2,17 @@ import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 import Auth from "../components/Auth";
 import Account from "../components/Account";
+import { Session } from "inspector";
 
 export default function Home() {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
+    //@ts-ignore
     setSession(supabase.auth.session());
 
     supabase.auth.onAuthStateChange((_event, session) => {
+      //@ts-ignore
       setSession(session);
     });
   }, []);
@@ -20,6 +23,7 @@ export default function Home() {
       {!session ? (
         <Auth />
       ) : (
+        //@ts-ignore
         <Account key={session.user.id} session={session} />
       )}
     </div>

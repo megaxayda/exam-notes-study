@@ -1,7 +1,7 @@
 name: learn-github-actions
 on: [push]
 jobs:
-  check-bats-version:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -10,3 +10,11 @@ jobs:
           node-version: "16"
       - run: npm i
       - run: npm run lint
+  deploy:
+    name: "Deploy to Netlify"
+    steps:
+      - uses: jsmrcaga/action-netlify-deploy@v1.1.0
+        with:
+          NETLIFY_AUTH_TOKEN: 5Hp1atYRwTge85K0r17WKJzrBiI7i47gARzvGj4ekUg
+          NETLIFY_SITE_ID: 53461f9b-8302-4b9f-ac34-5905cb780591
+          NETLIFY_DEPLOY_TO_PROD: true
