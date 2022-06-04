@@ -1,7 +1,7 @@
-name: learn-github-actions
+name: lint-deploy
 on: [push]
 jobs:
-  lint:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -10,7 +10,7 @@ jobs:
           node-version: "16"
       - run: npm i
       - run: npm run lint
-      - run: npm build
+      - run: npm run build
       - uses: jsmrcaga/action-netlify-deploy@v1.1.0
         with:
           NETLIFY_AUTH_TOKEN: 5Hp1atYRwTge85K0r17WKJzrBiI7i47gARzvGj4ekUg
