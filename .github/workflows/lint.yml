@@ -17,11 +17,8 @@ jobs:
         run: |
           git config --global user.email ${GITHUB_ACTOR}@gmail.com
           git config --global user.name ${GITHUB_ACTOR}
-      - name: get branch
-        run: git fetch
-      - name: delete release branch
-        run: git push -d origin release
-      - name: create release branch
-        run: git branch release
-        run: git checkout release
-        run: git push origin release -f --set-upstream
+      - run: git fetch
+      - run: git push -d origin release
+      - run: git branch release
+      - run: git checkout release
+      - run: git push origin release -f --set-upstream
