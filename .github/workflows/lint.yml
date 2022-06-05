@@ -22,6 +22,7 @@ jobs:
           git fetch --prune
           git branch -r
       - name: delete release branch
+        run: |
           git push -d origin release
           git branch -d release
       - name: create release branch
