@@ -13,10 +13,17 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
-      - run: |
+      - name: set up git
+        run: |
           git config --global user.email ${GITHUB_ACTOR}@gmail.com
           git config --global user.name ${GITHUB_ACTOR}
+      - name: delete release branch
+        run: |
           git fetch
-          git checkout origin/release
-          git rebase origin/main -f
-          git push -f
+          git push -d origin release
+          git branch -d release
+      - name: create release branch
+        run: |
+          git branch release
+          git checkout release
+          git push origin release -f --set-upstream
