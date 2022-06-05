@@ -18,5 +18,5 @@ jobs:
           git config --global user.name ${GITHUB_ACTOR}
           git fetch
           git checkout origin/release
-          git rebase origin/main
+          git rebase origin/main -f
           git push -f
