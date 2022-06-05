@@ -19,7 +19,9 @@ export default function Home() {
 
   return (
     <div className="container" style={{ padding: "50px 0 100px 0" }}>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <h1 className="text-3xl font-bold underline">
+        Hello world! abc ascnklascnlakns
+      </h1>
       {!session ? (
         <Auth />
       ) : (
