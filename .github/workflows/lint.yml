@@ -16,8 +16,7 @@ jobs:
       - run: |
           git config --global user.email ${GITHUB_ACTOR}@gmail.com
           git config --global user.name ${GITHUB_ACTOR}
-      - run: npm i
-      - run: npm run lint
-      - run: git checkout origin/release
-      - run: git rebase main
-      - run: git push -f
+          git fetch
+          git checkout origin/release
+          git rebase origin/main
+          git push -f
