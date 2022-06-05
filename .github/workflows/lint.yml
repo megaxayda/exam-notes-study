@@ -1,0 +1,16 @@
+name: lint
+on: [push]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - run: npm i
+      - run: npm run lint
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/629b91f7c31fa21acc47f88b?trigger_branch=main
