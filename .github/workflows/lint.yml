@@ -17,10 +17,11 @@ jobs:
         run: |
           git config --global user.email ${GITHUB_ACTOR}@gmail.com
           git config --global user.name ${GITHUB_ACTOR}
-      - name: delete release branch
+      - name: get branch
         run: |
           git fetch --prune
           git branch -r
+      - name: delete release branch
           git push -d origin release
           git branch -d release
       - name: create release branch
