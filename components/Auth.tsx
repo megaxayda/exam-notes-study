@@ -23,7 +23,7 @@ export default function Auth() {
       <div className="col-6 form-widget">
         <h1 className="header">Supabase + Next.js</h1>
         <p className="description">
-          Sign in via magic link with your email below asd asd asd
+          Sign in via magic link with your email below asd asd asd hello world 2
         </p>
         <div>
           <input
