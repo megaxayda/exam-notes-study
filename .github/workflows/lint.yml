@@ -32,9 +32,12 @@ jobs:
           node-version: "16"
       - run: npm i
       - run: npm run build
-      - uses: jsmrcaga/action-netlify-deploy@v1.1.0
+      # Deploy to Netlify using our production secrets
+      - name: Deploy to netlify
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         with:
-          NETLIFY_AUTH_TOKEN: 5Hp1atYRwTge85K0r17WKJzrBiI7i47gARzvGj4ekUg
-          NETLIFY_SITE_ID: 53461f9b-8302-4b9f-ac34-5905cb780591
-          NETLIFY_DEPLOY_TO_PROD: true
-          build_directory: .next
+          args: deploy --dir=build --prod
+          secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
