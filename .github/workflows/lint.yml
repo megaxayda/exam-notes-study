@@ -19,10 +19,13 @@ jobs:
           git config --global user.name ${GITHUB_ACTOR}
       - name: get branch
         run: |
-          git fetch --prune
+          git fetch
+          git checkout release
           git branch -r
       - name: delete release branch
-        run: git push -d origin release
+        run: |
+          git push -d origin release
+          git branch -d release
       - name: create release branch
         run: |
           git branch release
