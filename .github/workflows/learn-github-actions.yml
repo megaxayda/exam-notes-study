@@ -14,7 +14,7 @@ jobs:
       # - run: npm i
       # - run: npm run lint
       # - run: npm run build
-      - run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/629b91f7c31fa21acc47f88b?trigger_branch=main&trigger_title=triggered+by+This+Awesome+Service
+      - run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/629b91f7c31fa21acc47f88b?trigger_branch=main
 
   # deploy:
   #   needs: lint
