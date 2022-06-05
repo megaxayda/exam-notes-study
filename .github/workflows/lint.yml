@@ -19,7 +19,8 @@ jobs:
           git config --global user.name ${GITHUB_ACTOR}
       - name: delete release branch
         run: |
-          git fetch
+          git fetch --prune
+          git branch -r
           git push -d origin release
           git branch -d release
       - name: create release branch
