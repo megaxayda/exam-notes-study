@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
+      - run: npm i
+      - run: npm run lint
       - name: set up git
         run: |
           git config --global user.email ${GITHUB_ACTOR}@gmail.com
