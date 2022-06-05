@@ -11,10 +11,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
-      - run: npm i
-      - run: npm run lint
-      - run: npm run build
-      - run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/5c23354f454e1350f8543e78
+      # - run: npm i
+      # - run: npm run lint
+      # - run: npm run build
+      - run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/5c23354f454e1350f8543e78?trigger_branch=main&trigger_title=triggered+by+This+Awesome+Service
 
   # deploy:
   #   needs: lint
